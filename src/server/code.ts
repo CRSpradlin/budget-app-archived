@@ -1,4 +1,4 @@
-// import { uploadFile, cleanFiles } from "./utils/fileProcessor";
+import { GetLatestUnreadPurchases } from "./utils/emailFunctions";
 
 // @ts-ignore
 global.doGet = (e) => {
@@ -7,24 +7,19 @@ global.doGet = (e) => {
 
 // @ts-ignore
 global.test = () => {
+    Logger.log(GetLatestUnreadPurchases());
 };
 
 // // @ts-ignore
 // global.setScriptProp = () => {
-//     // const key = 'MAIN_SHORT_SHEET_ID';
-//     // const value = '<sheet id>';
+//     const key = 'MAIN_SHEET_ID';
+//     const value = '<sheet id>';
 
-//     // const key = 'MAIN_SHORT_SHEET_RACE_NAMES';
-//     // const value = '<sheet id>';
+//     const key = 'EMAIL_UREAD_LABEL';
+//     const value = '<uread label>';
 
-//     // const key = 'MAIN_LONG_SHEET_ID';
-//     // const value = '<sheet id>';
-
-//     // const key = 'MAIN_LONG_SHEET_RACE_NAMES';
-//     // const value = '<sheet id>';
-
-//     const key = 'TEMP_FOLDER_ID';
-//     const value = '<temp folder id>';
+//     const key = 'EMAIL_READ_LABEL';
+//     const value = '<read label>';
 
 //     const scriptProps = PropertiesService.getScriptProperties();
 //     scriptProps.setProperty(key, value);
