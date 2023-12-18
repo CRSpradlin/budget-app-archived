@@ -32,4 +32,10 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
     return result;
 }
 
-export { GetLatestUnreadPurchases };
+const AddReadLabelToThread = (threadId) => {
+    const props = GetProps();
+    GmailApp.getThreadById(threadId).addLabel(GmailApp.getUserLabelByName(props['EMAIL_READ_LABEL']));
+    GmailApp.getThreadById(threadId).removeLabel(GmailApp.getUserLabelByName(props['EMAIL_UNREAD_LABEL']));
+}
+
+export { GetLatestUnreadPurchases, AddReadLabelToThread };
