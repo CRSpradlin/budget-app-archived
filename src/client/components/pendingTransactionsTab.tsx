@@ -52,7 +52,7 @@ export default class DangerForm extends React.Component<ChildComponentType> {
 						<input type="submit" value={this.props.loading?"Deleting...":"Delete"} disabled={this.props.loading} className={`w-[10rem] ${this.props.loading ? 'bg-red-700' : ' bg-red-500 hover:bg-red-700'} px-5 py-2 text-sm rounded-full font-semibold text-white`}/>
 					</div>
 				</form>
-				<Modal modalTitle={'Are you sure you want to DELETE ALL RACES and start over?'} visability={ this.state.modalVisability } setVisability={ this.setModalVis } />
+				<GmailConfirmModal visability={ this.state.modalVisability } setVisability={ this.setModalVis } setCategory={this.setCategory} currentCategory={this.state.formCategory}/>
 			</div>
 		);
 	};
