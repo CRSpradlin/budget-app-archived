@@ -1,5 +1,9 @@
 function doGet(e) {}
 
+function GetLatestUnreadPurchases() {}
+
+function SubmitNewPurchase(formObject) {}
+
 function test() {}
 
  /******/ (() => {
@@ -39,21 +43,29 @@ function test() {}
     var GetLatestUnreadPurchases = function() {
         var mail, props = PropertiesService.getScriptProperties().getProperties(), result = [], index = 0;
         do {
-            for (var _i = 0, mail_1 = mail = GmailApp.search("label:".concat(props.EMAIL_UREAD_LABEL, " -{label:").concat(props.EMAIL_READ_LABEL, "}"), index, 50); _i < mail_1.length; _i++) {
-                var convo = mail_1[_i], description = convo.getMessages()[0].getSubject(), amountMatch = description.match(/\$([0-9,.]+)/), amount = null == amountMatch ? 0 : parseFloat(amountMatch[1]), newPurchase = {
-                    emailId: convo.getId(),
+            for (var _i = 0, mail_1 = mail = GmailApp.search("label:".concat(props.EMAIL_UREAD_LABEL), index, 50); _i < mail_1.length; _i++) {
+                var thread = mail_1[_i], description = thread.getMessages()[0].getSubject(), amountMatch = description.match(/\$([0-9,.]+)/), amount = null == amountMatch ? 0 : parseFloat(amountMatch[1]), newPurchase = {
+                    threadId: thread.getId(),
                     amount,
-                    isoDate: convo.getLastMessageDate().toISOString(),
+                    isoDate: thread.getLastMessageDate().toISOString(),
                     description
                 };
-                result.push(newPurchase), index++;
+                result.unshift(newPurchase), index++;
             }
         } while (0 != mail.length);
         return result;
+    }, __assign = undefined && undefined.__assign || function() {
+        return __assign = Object.assign || function(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) for (var p in s = arguments[i]) Object.prototype.hasOwnProperty.call(s, p) && (t[p] = s[p]);
+            return t;
+        }, __assign.apply(this, arguments);
     };
-    // CONCATENATED MODULE: ./src/server/code.ts
     __webpack_require__.g.doGet = function(e) {
         return HtmlService.createHtmlOutputFromFile("dist/index.html").setSandboxMode(HtmlService.SandboxMode.IFRAME).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL).addMetaTag("viewport", "width=device-width, initial-scale=1").setTitle("BudgetApp");
+    }, __webpack_require__.g.GetLatestUnreadPurchases = function() {
+        return GetLatestUnreadPurchases();
+    }, __webpack_require__.g.SubmitNewPurchase = function(formObject) {
+        return Logger.log(JSON.stringify(formObject)), __assign({}, formObject);
     }, __webpack_require__.g.test = function() {
         Logger.log(GetLatestUnreadPurchases());
     };
