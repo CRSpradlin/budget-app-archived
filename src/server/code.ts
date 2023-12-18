@@ -4,6 +4,10 @@ import { GetLatestUnreadPurchases } from "./utils/emailFunctions";
 global.doGet = (e) => {
     return HtmlService.createHtmlOutputFromFile('dist/index.html').setSandboxMode(HtmlService.SandboxMode.IFRAME).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL).addMetaTag('viewport', 'width=device-width, initial-scale=1').setTitle("BudgetApp");
 };
+// @ts-ignore
+global.GetLatestUnreadPurchases = () => {
+    return GetLatestUnreadPurchases();
+}
 
 // @ts-ignore
 global.test = () => {

@@ -1,11 +1,5 @@
 import { GetProps } from "./propFunctions"
-
-type Purchase = {
-    emailId: string,
-    amount: number,
-    isoDate: string,
-    description: string
-}
+import { Purchase } from "../../shared/types";
 
 const GetLatestUnreadPurchases = (): Purchase[] => {
     const props = GetProps();
@@ -15,21 +9,21 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
     let mail: GoogleAppsScript.Gmail.GmailThread[];
     let index = 0;
     do {
-        mail = GmailApp.search(`label:${props['EMAIL_UREAD_LABEL']} -{label:${props['EMAIL_READ_LABEL']}}`, index, 50);
+        mail = GmailApp.search(`label:${props['EMAIL_UREAD_LABEL']}`, index, 50);
         
-        for (const convo of mail) {
-            const description = convo.getMessages()[0].getSubject();
+        for (const thread of mail) {
+            const description = thread.getMessages()[0].getSubject();
             const amountMatch = description.match(/\$([0-9,.]+)/);
             const amount =  amountMatch == null ? 0.0 : parseFloat(amountMatch[1]);
 
             const newPurchase = {
-                emailId: convo.getId(),
+                threadId: thread.getId(),
                 amount,
-                isoDate: convo.getLastMessageDate().toISOString(),
+                isoDate: thread.getLastMessageDate().toISOString(),
                 description
             }
             
-            result.push(newPurchase);
+            result.unshift(newPurchase);
             index++;
         }
 

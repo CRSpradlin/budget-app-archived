@@ -1,5 +1,5 @@
 import React from "react";
-import DangerForm from "./pendingTransactionsTab";
+import PendingTransactionsTab from "./pendingTransactionsTab";
 
 export type ChildComponentType = {
 	loading: boolean,
@@ -45,7 +45,7 @@ export class Root extends React.Component {
 					</ul>
 				</div>
 				<div className="h-full flex flex-col text-center">
-					{ this.state.activeTabName === 'pendingTransactionsTab' ? 'pendingTransactionsTab' : null }
+					{ this.state.activeTabName === 'pendingTransactionsTab' ? <PendingTransactionsTab loading={this.state.loading} setLoading={this.setLoading} />  : null }
 					{ this.state.activeTabName === 'monthlySummaryTab' ? 'monthlySummaryTab' : null }
 				</div>
 			</div>
