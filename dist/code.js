@@ -4,6 +4,8 @@ function GetLatestUnreadPurchases() {}
 
 function SubmitNewPurchase(formObject) {}
 
+function MarkPurchaseAsRead(purchase) {}
+
 function test() {}
 
  /******/ (() => {
@@ -66,6 +68,8 @@ function test() {}
         return GetLatestUnreadPurchases();
     }, __webpack_require__.g.SubmitNewPurchase = function(formObject) {
         return Logger.log(JSON.stringify(formObject)), __assign({}, formObject);
+    }, __webpack_require__.g.MarkPurchaseAsRead = function(purchase) {
+        return Logger.log(JSON.stringify(purchase)), purchase;
     }, __webpack_require__.g.test = function() {
         Logger.log(GetLatestUnreadPurchases());
     };

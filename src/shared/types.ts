@@ -7,6 +7,17 @@ type Purchase = {
     purchaseIndex?: number
 }
 
+const FormObjToPurchase = (formObject: { [key: string]: string }): Purchase => {
+    return {
+        threadId: formObject.threadId ? formObject.threadId : undefined,
+        amount: parseFloat(formObject.amount),
+        category: formObject.category ? PurchaseCategory[formObject.category] : undefined,
+        isoDate: formObject.isoDate,
+        description: formObject.description,
+        purchaseIndex: formObject.purchaseIndex == undefined ?  undefined : parseInt(formObject.purchaseIndex)
+    }
+}
+
 type PendingTransactionsTabState = {
     modalVisability: boolean,
     unreadPurchases: Purchase[],
@@ -29,4 +40,4 @@ enum PurchaseCategory {
     Uncategorized = 'Uncategorized'
 }
 
-export { Purchase, PurchaseCategory, PendingTransactionsTabState }
+export { Purchase, FormObjToPurchase, PurchaseCategory, PendingTransactionsTabState }

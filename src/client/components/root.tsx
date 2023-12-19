@@ -37,10 +37,10 @@ export class Root extends React.Component {
 				<div className="h-20 flex flex-row text-center justify-center">
 					<ul className="flex border-b">
 						<li className="-mb-px mr-1">
-							<button className={`bg-white inline-block py-2 px-4 font-semibold ${this.state.activeTabName === 'pendingTransactionsTab'?'border-l border-t border-r rounded-t text-budget-dark':'text-gray-400 hover:text-budget-light'}`} disabled={this.state.loading} onClick={() => this.setActiveTab('pendingTransactionsTab')}>Pending Transactions</button>
+							<button className={`inline-block py-2 px-4 font-semibold ${this.state.activeTabName === 'pendingTransactionsTab'?'border-l border-t border-r rounded-t text-budget-dark':'text-gray-400 hover:text-budget-light'}`} disabled={this.state.loading} onClick={() => this.setActiveTab('pendingTransactionsTab')}>Pending Transactions</button>
 						</li>
 						<li className="mr-1">
-							<button className={`bg-white inline-block py-2 px-4 font-semibold ${this.state.activeTabName === 'monthlySummaryTab'?'border-l border-t border-r rounded-t text-budget-dark':'text-gray-400 hover:text-budget-light'}`} disabled={this.state.loading} onClick={() => this.setActiveTab('monthlySummaryTab')}>Monthly Summary</button>
+							<button className={`inline-block py-2 px-4 font-semibold ${this.state.activeTabName === 'monthlySummaryTab'?'border-l border-t border-r rounded-t text-budget-dark':'text-gray-400 hover:text-budget-light'}`} disabled={this.state.loading} onClick={() => this.setActiveTab('monthlySummaryTab')}>Monthly Summary</button>
 						</li>
 					</ul>
 				</div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { ChildComponentType } from "./root";
 import GmailConfirmModal from "./gmailConfirmModal";
-import { PendingTransactionsTabState, Purchase, PurchaseCategory } from "../../shared/types";
+import { PendingTransactionsTabState, Purchase, FormObjToPurchase, PurchaseCategory } from "../../shared/types";
 
 export default class PendingTransactionsTab extends React.Component<ChildComponentType> {
 	
@@ -72,17 +72,18 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 		})
 	}
 
-	public handleFormSuccess = (purchase: Purchase) => {
+	public handleFormSuccess = (purchaseObj) => {
 		this.props.setLoading(false);
 		
-		if (purchase.purchaseIndex != -1) {
+		const purchase = FormObjToPurchase(purchaseObj);
+
+		if (purchase.purchaseIndex != undefined && purchase.purchaseIndex != -1) {
 			const unreadPurchases = this.state.unreadPurchases;
-			unreadPurchases.splice(purchase.purchaseIndex ? purchase.purchaseIndex : -1, 1);
+			unreadPurchases.splice(purchase.purchaseIndex, 1);
 			this.setState({
 				unreadPurchases
 			})
 		}
-		alert('Successfully Added Index: ' + purchase.purchaseIndex);
 	};
 
 	public handleFailure = (error: Error) => {
@@ -100,6 +101,18 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 			formPurchaseIndex: index
 		});
 		this.handleSubmit(null);
+	}
+
+	public deletePurchase = (purchase: Purchase, index: number) => {
+		this.props.setLoading(true);
+
+		purchase.purchaseIndex = index;
+
+		// @ts-ignore
+		google.script.run
+		.withSuccessHandler(this.handleFormSuccess)
+		.withFailureHandler(this.handleFailure)
+		.MarkPurchaseAsRead(purchase);
 	}
 
 	public handleSubmit = (e) => {
@@ -122,7 +135,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 	public render() {
 		return (
 			<div className="content-center">
-				<h1 className="text-red-700 text-2xl p-6">Submit New Transaction</h1>
+				<h1 className="text-budget-dark text-2xl p-6">Submit New Transaction</h1>
 				<form id="newPurchaseForm" onSubmit={this.handleSubmit}>
 					<div className="m-5">
 						<label>Transaction Amount</label>
@@ -144,22 +157,22 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 					<input value={this.state.formISODate} type="text" className="hidden" id="isoDate" name="isoDate" />
 					<input type="number" value={this.state.formPurchaseIndex} className="hidden" id="purchaseIndex" name="purchaseIndex" />
 					<div className="m-10">
-						<input id="submit" type="submit" value={this.props.loading?"Submitting...":"Submit"} disabled={this.props.loading} className={`w-[10rem] ${this.props.loading ? 'bg-red-700' : ' bg-red-500 hover:bg-red-700'} px-5 py-2 text-sm rounded-full font-semibold text-white`}/>
+						<input id="submit" type="submit" value={this.props.loading?"Submitting...":"Submit"} disabled={this.props.loading} className={`w-[10rem] ${this.props.loading ? 'bg-budget' : ' bg-budget-dark hover:bg-budget'} px-5 py-2 text-sm rounded-full font-semibold text-white`}/>
 					</div>
 				</form>
-				<div>
-					<span>Pending Transactions</span>
+				<div className="m-28">
+					<span>Approve Pending Transactions</span>
 					<div className="flex flex-col">
 						{this.state.unreadPurchases.map((purchase, index) => (
-							<div className="flex flex-row">
-								<div>
+							<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
+								<div className="flex flex-col w-5/6 items-start">
 									<span>Amount: {purchase.amount}</span>
 									<span>Date: {purchase.isoDate}</span>
 									<span>Description: {purchase.description}</span>
 								</div>
 								<div className="flex flex-row">
-									<button onClick={() => this.setFormInputsWithPurchase(purchase, index)}>Add</button>
-									<button onClick={() => alert('Delete: ' + purchase.threadId)}>Delete</button>
+									<button onClick={() => this.setFormInputsWithPurchase(purchase, index)} disabled={this.props.loading} className={`w-[6rem] m-2 ${this.props.loading ? 'bg-budget' : ' bg-budget-dark hover:bg-budget'} px-5 py-2 text-sm rounded-full font-semibold text-white`}>Add</button>
+									<button onClick={() => this.deletePurchase(purchase, index)} disabled={this.props.loading} className={`w-[6rem] m-2 ${this.props.loading ? 'bg-budget' : ' bg-budget-dark hover:bg-budget'} px-5 py-2 text-sm rounded-full font-semibold text-white`}>Delete</button>
 								</div>
 							</div>
 						))}
