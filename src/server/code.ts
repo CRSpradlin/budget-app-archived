@@ -1,6 +1,6 @@
 import { GetLatestUnreadPurchases } from "./utils/emailFunctions";
 import { AddPurchaseToSheet } from "./utils/sheetFunctions";
-import { PurchaseCategory } from "../shared/types";
+import { Purchase, PurchaseCategory, FormObjToPurchase } from "../shared/types";
 
 // @ts-ignore
 global.doGet = (e) => {
@@ -16,7 +16,15 @@ global.GetLatestUnreadPurchases = () => {
 global.SubmitNewPurchase = (formObject) => {
     Logger.log(JSON.stringify(formObject));
 
+
     return ({...formObject});
+}
+
+// @ts-ignore
+global.MarkPurchaseAsRead = (purchase: Purchase) => {
+    Logger.log(JSON.stringify(purchase));
+
+    return purchase;
 }
 
 // @ts-ignore
