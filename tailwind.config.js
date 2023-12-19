@@ -7,9 +7,9 @@ module.exports = {
     extend: {
       colors: {
         'budget': {
-          light: '#ee7a3d',
-          DEFAULT: '#b65d2e',
-          dark: '#8a4723',
+          light: 'rgb(199 210 254)',
+          DEFAULT: 'rgb(129 140 248)',
+          dark: 'rgb(49 46 129)',
         },
       },
     },
