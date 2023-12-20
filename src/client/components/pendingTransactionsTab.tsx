@@ -16,7 +16,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 		formCategory: PurchaseCategory.Uncategorized,
 		formDescription: "",
 		formThreadId: "",
-		formISODate: "",
+		formISODate: new Date().toLocaleString(),
 		formPurchaseIndex: -1 
 	}
 
@@ -25,7 +25,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 			formAmount: 0.00,
 			formDescription: "",
 			formThreadId: "",
-			formISODate: "",
+			formISODate: new Date().toLocaleString(),
 			formPurchaseIndex: -1 
 		})
 	}
@@ -72,10 +72,8 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 		})
 	}
 
-	public handleFormSuccess = (purchaseObj) => {
+	public handleFormSuccess = (purchase: Purchase) => {
 		this.props.setLoading(false);
-		
-		const purchase = FormObjToPurchase(purchaseObj);
 
 		if (purchase.purchaseIndex != undefined && purchase.purchaseIndex != -1) {
 			const unreadPurchases = this.state.unreadPurchases;
@@ -166,9 +164,9 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 						{this.state.unreadPurchases.map((purchase, index) => (
 							<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
 								<div className="flex flex-col w-5/6 items-start">
-									<span>Amount: {purchase.amount}</span>
-									<span>Date: {purchase.isoDate}</span>
+									<span className="text-lg font-bold">Amount: ${purchase.amount}</span>
 									<span>Description: {purchase.description}</span>
+									<span>Date: {purchase.isoDate}</span>
 								</div>
 								<div className="flex flex-row">
 									<button onClick={() => this.setFormInputsWithPurchase(purchase, index)} disabled={this.props.loading} className={`w-[6rem] m-2 ${this.props.loading ? 'bg-budget' : ' bg-budget-dark hover:bg-budget'} px-5 py-2 text-sm rounded-full font-semibold text-white`}>Add</button>

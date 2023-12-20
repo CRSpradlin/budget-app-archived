@@ -47,8 +47,8 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
                                         </div>
                                     </div>
                                     <div className="flex flex-row">
-                                        <button onClick={() => this.props.setVisability(false, true)} className={'w-[10rem] m-5 bg-budget-light hover:bg-budget-dark px-5 py-2 text-sm rounded-full font-semibold text-white'}>Submit</button>
-                                        <button onClick={() => this.props.setVisability(false, false)} className={'w-[10rem] m-5 bg-budget-light hover:bg-budget-dark px-5 py-2 text-sm rounded-full font-semibold text-white'}>Cancel</button>
+                                        <button onClick={() => this.props.setVisability(false, true)} className={'w-[10rem] m-5 bg-budget-dark hover:bg-budget px-5 py-2 text-sm rounded-full font-semibold text-white'}>Submit</button>
+                                        <button onClick={() => this.props.setVisability(false, false)} className={'w-[10rem] m-5 bg-budget-dark hover:bg-budget px-5 py-2 text-sm rounded-full font-semibold text-white'}>Cancel</button>
                                     </div>
                                 </div>
                             </div>

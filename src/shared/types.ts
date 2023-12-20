@@ -32,7 +32,7 @@ type PendingTransactionsTabState = {
 enum PurchaseCategory {
     Rent = 'Rent',
     Utilities = 'Utilities',
-    Grocery = 'Groceries',
+    Grocery = 'Grocery',
     Dining = 'Dining',
     Dog = 'Dog',
     Car = 'Car',
