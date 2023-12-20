@@ -1,5 +1,6 @@
 import React from "react";
 import PendingTransactionsTab from "./pendingTransactionsTab";
+import MonthlySummaryTab from "./monthlySummaryTab";
 
 export type ChildComponentType = {
 	loading: boolean,
@@ -46,7 +47,7 @@ export class Root extends React.Component {
 				</div>
 				<div className="h-full flex flex-col text-center">
 					{ this.state.activeTabName === 'pendingTransactionsTab' ? <PendingTransactionsTab loading={this.state.loading} setLoading={this.setLoading} />  : null }
-					{ this.state.activeTabName === 'monthlySummaryTab' ? 'monthlySummaryTab' : null }
+					{ this.state.activeTabName === 'monthlySummaryTab' ? <MonthlySummaryTab loading={this.state.loading} setLoading={this.setLoading} /> : null }
 				</div>
 			</div>
 		);

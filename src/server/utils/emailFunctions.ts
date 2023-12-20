@@ -19,7 +19,7 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
             const newPurchase = {
                 threadId: thread.getId(),
                 amount,
-                isoDate: thread.getLastMessageDate().toISOString(),
+                isoDate: thread.getLastMessageDate().toLocaleString(),
                 description
             }
             

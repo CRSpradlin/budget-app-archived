@@ -1,5 +1,5 @@
 import { GetLatestUnreadPurchases } from "./utils/emailFunctions";
-import { AddPurchaseToSheet } from "./utils/sheetFunctions";
+import { AddPurchaseToSheet, GetMonthPurchases } from "./utils/sheetFunctions";
 import { Purchase, PurchaseCategory, FormObjToPurchase } from "../shared/types";
 
 // @ts-ignore
@@ -13,11 +13,24 @@ global.GetLatestUnreadPurchases = () => {
 }
 
 // @ts-ignore
+global.GetCurrentMonthPurchases = () => {
+    const currDate = new Date();
+
+    const monthName = currDate.toLocaleString('default', { month: 'long' });
+    const fullYear = currDate.getFullYear();
+
+    const result = GetMonthPurchases(monthName, fullYear);
+
+    return JSON.stringify(result);
+}
+
+// @ts-ignore
 global.SubmitNewPurchase = (formObject) => {
-    Logger.log(JSON.stringify(formObject));
 
+    const purchase = FormObjToPurchase(formObject)
+    AddPurchaseToSheet(purchase);
 
-    return ({...formObject});
+    return purchase;
 }
 
 // @ts-ignore
@@ -33,7 +46,7 @@ global.test = () => {
     //     amount: 20.20,
     //     description: 'Testing',
     //     category: PurchaseCategory.Rent,
-    //     isoDate: new Date().toISOString()
+    //     isoDate: new Date().toLocaleString()
     // }
     // Logger.log(AddPurchaseToSheet(newPurchase));
 

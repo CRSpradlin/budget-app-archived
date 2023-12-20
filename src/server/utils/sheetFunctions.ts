@@ -1,5 +1,5 @@
 import { GetProps } from "./propFunctions";
-import { Purchase } from "../../shared/types";
+import { Purchase, PurchaseCategory } from "../../shared/types";
 
 const getNextEmptyRow = (sheet: GoogleAppsScript.Spreadsheet.Sheet) => {
     const rangeValueArray = sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).getValues();
@@ -15,7 +15,7 @@ const getNextEmptyRow = (sheet: GoogleAppsScript.Spreadsheet.Sheet) => {
 const getSheetForPurchase = (purchase: Purchase) => {
     const props = GetProps();
     const mainSheet = SpreadsheetApp.openById(props['MAIN_SHEET_ID']);
-    
+
     const purchaseDate = new Date(purchase.isoDate);
     const sheetName = `${purchaseDate.toLocaleString('default', { month: 'long' })}, ${purchaseDate.getFullYear()}`;
 
@@ -44,4 +44,39 @@ const AddPurchaseToSheet = (newPurchase: Purchase) => {
     );
 }
 
-export { AddPurchaseToSheet }
+const GetMonthPurchases = (monthName: string, fullYear: number) => {
+    const props = GetProps();
+    const mainSheet = SpreadsheetApp.openById(props['MAIN_SHEET_ID']);
+
+    const monthRecordSheet = mainSheet.getSheetByName(`${monthName}, ${fullYear}`);
+    const purchases: Purchase[] = [];
+    const categoryResults: {[key: string]: number} = {};
+
+    if (monthRecordSheet) {
+        const purchaseRecordValues = monthRecordSheet.getRange(2, 1, monthRecordSheet.getMaxRows(), 5).getValues();
+
+        for (const purchaseEntry of purchaseRecordValues) {
+            if(purchaseEntry[0] == "") break;
+
+            const amount = parseFloat(purchaseEntry[0]);
+            const category = PurchaseCategory[purchaseEntry[1]];
+
+            if (!categoryResults[category]) {
+                categoryResults[category] = amount;
+            } else {
+                categoryResults[category] += amount;
+            }
+
+            purchases.push({
+                amount,
+                category,
+                isoDate: purchaseEntry[2],
+                description: purchaseEntry[3]
+            })
+        }
+    }
+
+    return { purchases, categories: categoryResults };
+}
+
+export { AddPurchaseToSheet, GetMonthPurchases }

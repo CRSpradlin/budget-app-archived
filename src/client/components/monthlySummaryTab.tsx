@@ -1,36 +1,28 @@
 import React from "react";
 import { ChildComponentType } from "./root";
-import Modal from "./gmailConfirmModal";
+import { Purchase } from "../../shared/types";
 
-export default class DangerForm extends React.Component<ChildComponentType> {
+export default class MonthlySummaryTab extends React.Component<ChildComponentType> {
 	
 	constructor(props) {
 		super(props);
 	};
 
 	state = {
-		modalVisability: false
+		purchases: [],
+		categories: {}
 	}
 
-	public setModalVis = (newVis: boolean, runSubmit: boolean) => {
-		this.setState({ modalVisability: newVis });
+	public setCategoriesAndPurchases = (resultStr: string) => {
+		const result = JSON.parse(resultStr);
+		console.log(resultStr, result);
+		this.setState({
+			purchases: result.purchases,
+			categories: result.categories
+		});
 
-		if (runSubmit) {
-			this.props.setLoading(true);
-
-			// @ts-ignore
-			google.script.run
-				.withSuccessHandler(this.handleSuccess)
-				.withFailureHandler(this.handleFailure)
-				.clearReports();
-		}
-	}
-
-	public handleSuccess = () => {
 		this.props.setLoading(false);
-
-		alert('Successfully Cleared Reports');
-	};
+	}
 
 	public handleFailure = (error: Error) => {
 		this.props.setLoading(false);
@@ -38,20 +30,42 @@ export default class DangerForm extends React.Component<ChildComponentType> {
 		alert('Error Occured: ' + error.message);
 	}
 
-	public handleSubmit = (e) => {
-		e.preventDefault();
-		this.setModalVis(true, false);
-	}
+	public componentDidMount = () => {
+		this.props.setLoading(true);
+		// @ts-ignore
+		google.script.run
+			.withSuccessHandler(this.setCategoriesAndPurchases)
+			.withFailureHandler(this.handleFailure)
+			.GetCurrentMonthPurchases();
+	};
 
 	public render() {
 		return (
 			<div className="content-center">
-				<h1 className="text-red-700 text-2xl p-6">Clear All Results and Data</h1>
-				<form id="deleteForm" onSubmit={this.handleSubmit}>
-					<div className="m-10">
-						<input type="submit" value={this.props.loading?"Deleting...":"Delete"} disabled={this.props.loading} className={`w-[10rem] ${this.props.loading ? 'bg-red-700' : ' bg-red-500 hover:bg-red-700'} px-5 py-2 text-sm rounded-full font-semibold text-white`}/>
-					</div>
-				</form>
+				<div>
+					<span className="text-budget-dark text-2xl p-6">This Month's Category Totals</span>
+					{Object.keys(this.state.categories).map((category, index) => (
+								<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
+									<div className="flex flex-col w-5/6 items-start">
+										<span className="text-lg font-bold">Category: {category}</span>
+										<span className="text-lg font-bold">Monthly Total: ${this.state.categories[category]}</span>
+									</div>
+								</div>
+						))
+					}
+				</div>
+				<div>
+					<span className="text-budget-dark text-2xl p-6">This Month's Purchases</span>
+					{this.state.purchases.map((purchase: Purchase, index) => (
+						<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
+							<div className="flex flex-col w-5/6 items-start">
+								<span className="text-lg font-bold">Amount: ${purchase.amount}</span>
+								<span>Description: {purchase.description}</span>
+								<span>Date: {purchase.isoDate}</span>
+							</div>
+						</div>
+					))}
+				</div>
 				{/* <Modal modalTitle={'Are you sure you want to DELETE ALL RACES and start over?'} visability={ this.state.modalVisability } setVisability={ this.setModalVis } /> */}
 			</div>
 		);
