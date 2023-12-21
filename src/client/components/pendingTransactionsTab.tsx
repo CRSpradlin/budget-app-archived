@@ -133,22 +133,22 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 	public render() {
 		return (
 			<div className="content-center">
-				<h1 className="text-budget-dark text-2xl p-6">Submit New Transaction</h1>
+				<div className="text-budget-dark text-2xl p-6">Submit New Transaction</div>
 				<form id="newPurchaseForm" onSubmit={this.handleSubmit}>
 					<div className="m-5">
-						<label>Transaction Amount</label>
+						<label>Transaction Amount: </label>
 						<input value={this.state.formAmount} onChange={(e) => this.setState({ formAmount: e.target.value })} type="number" name="amount" step="0.01" required/>
 					</div>
 					<div className="m-5">
-						<label>Category</label>
-						<select name="category" value={this.state.formCategory} onChange={(e) => this.setState({ formCategory: e.target.value })} required>
+						<label>Category: </label>
+						<select name="category" value={this.state.formCategory} onChange={(e) => this.setState({ formCategory: e.target.value })} required className="bg-white">
 							{Object.keys(PurchaseCategory).map((option, index) => (
 								<option key={index} value={option}>{option}</option>
 							))}
 						</select>
 					</div>
 					<div className="m-5">
-						<label>Description</label>
+						<label>Description: </label>
 						<input value={this.state.formDescription} onChange={(e) => this.setState({ formDescription: e.target.value })} type="text" name="description" required/>
 					</div>
 					<input value={this.state.formThreadId} type="text" className="hidden" id="threadId" name="threadId" />
@@ -159,10 +159,10 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 					</div>
 				</form>
 				<div className="m-28">
-					<span>Approve Pending Transactions</span>
+					<div className="text-budget-dark text-2xl p-6">Approve Pending Transactions</div>
 					<div className="flex flex-col">
 						{this.state.unreadPurchases.map((purchase, index) => (
-							<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
+							<div className="flex flex-row items-center border-t-2 border-indigo-900">
 								<div className="flex flex-col w-5/6 items-start">
 									<span className="text-lg font-bold">Amount: ${purchase.amount}</span>
 									<span>Description: {purchase.description}</span>

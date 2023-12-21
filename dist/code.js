@@ -69,9 +69,7 @@ function test() {}
     // CONCATENATED MODULE: ./src/server/utils/sheetFunctions.ts
     var AddPurchaseToSheet = function(newPurchase) {
         var monthRecordSheet = function(purchase) {
-            var props = propFunctions_GetProps(), mainSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID);
-            Logger.log(purchase.isoDate);
-            var purchaseDate = new Date(purchase.isoDate), sheetName = "".concat(purchaseDate.toLocaleString("default", {
+            var props = propFunctions_GetProps(), mainSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID), purchaseDate = new Date(purchase.isoDate), sheetName = "".concat(purchaseDate.toLocaleString("default", {
                 month: "long"
             }), ", ").concat(purchaseDate.getFullYear()), monthRecordSheet = mainSheet.getSheetByName(sheetName);
             return monthRecordSheet || ((monthRecordSheet = mainSheet.insertSheet(sheetName, 1)).getRange(1, 1, 1, 7).setValues([ [ "Amount", "Category", "Date", "Description", "Gmail I.D.", "", "Total for Month" ] ]), 
@@ -112,7 +110,7 @@ function test() {}
         }(currDate.toLocaleString("default", {
             month: "long"
         }), currDate.getFullYear());
-        return Logger.log(result), JSON.stringify(result);
+        return JSON.stringify(result);
     }, __webpack_require__.g.SubmitNewPurchase = function(formObject) {
         var purchase = function(formObject) {
             return {
@@ -124,7 +122,7 @@ function test() {}
                 purchaseIndex: formObject.purchaseIndex == undefined ? undefined : parseInt(formObject.purchaseIndex)
             };
         }(formObject);
-        return AddPurchaseToSheet(purchase), Logger.log(purchase), purchase;
+        return AddPurchaseToSheet(purchase), purchase;
     }, __webpack_require__.g.MarkPurchaseAsRead = function(purchase) {
         return Logger.log(JSON.stringify(purchase)), purchase;
     }, __webpack_require__.g.test = function() {
