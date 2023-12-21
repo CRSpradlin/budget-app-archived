@@ -1,6 +1,6 @@
 import React from "react";
 import { ChildComponentType } from "./root";
-import { Purchase } from "../../shared/types";
+import { Purchase, PurchaseCategory } from "../../shared/types";
 
 export default class MonthlySummaryTab extends React.Component<ChildComponentType> {
 	
@@ -42,26 +42,35 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 	public render() {
 		return (
 			<div className="content-center">
-				<div>
+				<div className="flex flex-col items-center">
 					<span className="text-budget-dark text-2xl p-6">This Month's Category Totals</span>
-					{Object.keys(this.state.categories).map((category, index) => (
-								<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
-									<div className="flex flex-col w-5/6 items-start">
-										<span className="text-lg font-bold">Category: {category}</span>
-										<span className="text-lg font-bold">Monthly Total: ${this.state.categories[category]}</span>
-									</div>
-								</div>
-						))
-					}
+					<table className="table-fixed">
+						<tr>
+							<th>Category</th>
+							<th>Dollar Total</th>
+						</tr>
+						{Object.keys(PurchaseCategory).map((category, index) => (
+								<tr>
+									<td>{category}</td>
+									<td>{this.props.loading ? 'Loading...' : '$' + (this.state.categories[category] == undefined ? 0 : this.state.categories[category])}</td>
+								</tr>
+							))
+						}
+						<tr>
+							<td>Month Grand Total:</td>
+							<td>$0</td>
+						</tr>
+					</table>
+					
 				</div>
-				<div>
-					<span className="text-budget-dark text-2xl p-6">This Month's Purchases</span>
+				<div className="m-28">
+					<div className="text-budget-dark text-2xl p-6">This Month's Purchases</div>
 					{this.state.purchases.map((purchase: Purchase, index) => (
 						<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
-							<div className="flex flex-col w-5/6 items-start">
-								<span className="text-lg font-bold">Amount: ${purchase.amount}</span>
-								<span>Description: {purchase.description}</span>
-								<span>Date: {purchase.isoDate}</span>
+							<div className="flex flex-col text-center w-5/6 items-center">
+								<span className="text-xl font-bold">{purchase.category?purchase.category+': ':''}${purchase.amount}</span>
+								<span className="text-lg">{purchase.description}</span>
+								<span className="text-sm">{purchase.isoDate}</span>
 							</div>
 						</div>
 					))}
