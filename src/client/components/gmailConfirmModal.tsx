@@ -99,7 +99,7 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
                                         </div>
                                         <div className="flex flex-row">
                                             <button type="submit" className={'w-[10rem] m-5 bg-budget-dark hover:bg-budget px-5 py-2 text-sm rounded-full font-semibold text-white'}>Submit</button>
-                                            <button onClick={this.cancelModal} className={'w-[10rem] m-5 bg-budget-dark hover:bg-budget px-5 py-2 text-sm rounded-full font-semibold text-white'}>Cancel</button>
+                                            <button type="button" onClick={this.cancelModal} className={'w-[10rem] m-5 bg-budget-dark hover:bg-budget px-5 py-2 text-sm rounded-full font-semibold text-white'}>Cancel</button>
                                         </div>
                                     </form>
                                 </div>
