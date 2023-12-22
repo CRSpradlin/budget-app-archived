@@ -28,6 +28,11 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
     public submitModal = (e) => {
         e.preventDefault();
         this.props.setVisability(false, true);
+        this.setState({
+            tipAmount: '0',
+            originalAmount: "null",
+            originalDescription: "null"
+        });
     };
 
     public cancelModal = () => {
@@ -40,15 +45,23 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
     };
 
     public updateTipAmount = (tipStr: string) => {
-        if (this.state.originalAmount == "null") this.setState({ originalAmount: this.props.currentAmount.toString() });
-        if (this.state.originalDescription == "null") this.setState({ originalDescription: this.props.currentDescription.toString() });
-        console.log(this.props.currentAmount, this.state.originalAmount)
+        let originalAmount = this.state.originalAmount;
+        let originalDescription = this.state.originalDescription
+        if (originalAmount == "null") {
+            originalAmount = this.props.currentAmount.toString();
+            this.setState({ originalAmount: this.props.currentAmount.toString() });
+        }
+        if (this.state.originalDescription == "null") {
+            originalDescription = this.props.currentDescription.toString();
+            this.setState({ originalDescription: this.props.currentDescription.toString() });
+        }
+        console.log(this.props.currentAmount, originalAmount)
         this.setState({
             tipAmount: tipStr
         })
-        const newTotal = parseFloat(tipStr) + parseFloat(this.state.originalAmount);
+        const newTotal = parseFloat(tipStr) + parseFloat(originalAmount);
 
-        this.props.setDescription(this.state.originalDescription + ' (Add. Tip: $' + tipStr + ')');
+        this.props.setDescription(originalDescription + ' (Add. Tip: $' + tipStr + ')');
         this.props.setAmount(newTotal.toFixed(2).toString());
     }
 

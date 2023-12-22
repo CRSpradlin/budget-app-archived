@@ -7397,7 +7397,11 @@
                     originalAmount: "null",
                     originalDescription: "null"
                 }, _this.submitModal = function(e) {
-                    e.preventDefault(), _this.props.setVisability(!1, !0);
+                    e.preventDefault(), _this.props.setVisability(!1, !0), _this.setState({
+                        tipAmount: "0",
+                        originalAmount: "null",
+                        originalDescription: "null"
+                    });
                 }, _this.cancelModal = function() {
                     _this.setState({
                         tipAmount: "0",
@@ -7405,15 +7409,18 @@
                         originalDescription: "null"
                     }), _this.props.setVisability(!1, !1);
                 }, _this.updateTipAmount = function(tipStr) {
-                    "null" == _this.state.originalAmount && _this.setState({
+                    var originalAmount = _this.state.originalAmount, originalDescription = _this.state.originalDescription;
+                    "null" == originalAmount && (originalAmount = _this.props.currentAmount.toString(), 
+                    _this.setState({
                         originalAmount: _this.props.currentAmount.toString()
-                    }), "null" == _this.state.originalDescription && _this.setState({
+                    })), "null" == _this.state.originalDescription && (originalDescription = _this.props.currentDescription.toString(), 
+                    _this.setState({
                         originalDescription: _this.props.currentDescription.toString()
-                    }), console.log(_this.props.currentAmount, _this.state.originalAmount), _this.setState({
+                    })), console.log(_this.props.currentAmount, originalAmount), _this.setState({
                         tipAmount: tipStr
                     });
-                    var newTotal = parseFloat(tipStr) + parseFloat(_this.state.originalAmount);
-                    _this.props.setDescription(_this.state.originalDescription + " (Add. Tip: $" + tipStr + ")"), 
+                    var newTotal = parseFloat(tipStr) + parseFloat(originalAmount);
+                    _this.props.setDescription(originalDescription + " (Add. Tip: $" + tipStr + ")"), 
                     _this.props.setAmount(newTotal.toFixed(2).toString());
                 }, _this;
             }
@@ -7723,7 +7730,7 @@
                 }, "This Month's Category Totals"), react.createElement("table", {
                     className: "table-fixed"
                 }, react.createElement("tr", null, react.createElement("th", null, "Category"), react.createElement("th", null, "Dollar Total")), Object.keys(PurchaseCategory).map((function(category, index) {
-                    return react.createElement("tr", null, react.createElement("td", null, category), react.createElement("td", null, _this.props.loading ? "Loading..." : "$" + (_this.state.categories[category] == undefined ? 0 : _this.state.categories[category])));
+                    return react.createElement("tr", null, react.createElement("td", null, category), react.createElement("td", null, _this.props.loading ? "Loading..." : "$" + (_this.state.categories[category] == undefined ? 0 : parseFloat(_this.state.categories[category]).toFixed(2))));
                 })), react.createElement("tr", null, react.createElement("td", null, "Month Grand Total:"), react.createElement("td", null, "$0")))), react.createElement("div", {
                     className: "m-28"
                 }, react.createElement("div", {

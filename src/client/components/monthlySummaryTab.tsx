@@ -52,7 +52,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 						{Object.keys(PurchaseCategory).map((category, index) => (
 								<tr>
 									<td>{category}</td>
-									<td>{this.props.loading ? 'Loading...' : '$' + (this.state.categories[category] == undefined ? 0 : this.state.categories[category])}</td>
+									<td>{this.props.loading ? 'Loading...' : '$' + (this.state.categories[category] == undefined ? 0 : parseFloat(this.state.categories[category]).toFixed(2))}</td>
 								</tr>
 							))
 						}
