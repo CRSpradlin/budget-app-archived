@@ -55,7 +55,7 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
             originalDescription = this.props.currentDescription.toString();
             this.setState({ originalDescription: this.props.currentDescription.toString() });
         }
-        console.log(this.props.currentAmount, originalAmount)
+
         this.setState({
             tipAmount: tipStr
         })

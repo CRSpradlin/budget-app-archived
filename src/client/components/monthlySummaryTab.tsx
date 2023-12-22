@@ -15,7 +15,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 
 	public setCategoriesAndPurchases = (resultStr: string) => {
 		const result = JSON.parse(resultStr);
-		console.log(resultStr, result);
+
 		this.setState({
 			purchases: result.purchases,
 			categories: result.categories
