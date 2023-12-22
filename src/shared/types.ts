@@ -21,7 +21,7 @@ const FormObjToPurchase = (formObject: { [key: string]: string }): Purchase => {
 type PendingTransactionsTabState = {
     modalVisability: boolean,
     unreadPurchases: Purchase[],
-    formAmount: number,
+    formAmount: string,
     formCategory: PurchaseCategory,
     formDescription: string,
     formThreadId: string,

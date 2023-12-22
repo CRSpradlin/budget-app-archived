@@ -9,7 +9,7 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
     let mail: GoogleAppsScript.Gmail.GmailThread[];
     let index = 0;
     do {
-        mail = GmailApp.search(`label:${props['EMAIL_UREAD_LABEL']}`, index, 50);
+        mail = GmailApp.search(`label:${props['EMAIL_UNREAD_LABEL']}`, index, 50);
         
         for (const thread of mail) {
             const description = thread.getMessages()[0].getSubject();
@@ -32,10 +32,10 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
     return result;
 }
 
-const AddReadLabelToThread = (threadId) => {
+const MarkThreadAsRead = (threadId) => {
     const props = GetProps();
     GmailApp.getThreadById(threadId).addLabel(GmailApp.getUserLabelByName(props['EMAIL_READ_LABEL']));
     GmailApp.getThreadById(threadId).removeLabel(GmailApp.getUserLabelByName(props['EMAIL_UNREAD_LABEL']));
 }
 
-export { GetLatestUnreadPurchases, AddReadLabelToThread };
+export { GetLatestUnreadPurchases, MarkThreadAsRead };

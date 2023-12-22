@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html, body, .budget-bg {
     background-color: rgb(238 242 255);
 }
 

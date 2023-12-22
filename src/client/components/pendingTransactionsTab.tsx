@@ -12,7 +12,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 	state: PendingTransactionsTabState = {
 		modalVisability: false,
 		unreadPurchases: [],
-		formAmount: 0.00,
+		formAmount: "",
 		formCategory: PurchaseCategory.Uncategorized,
 		formDescription: "",
 		formThreadId: "",
@@ -22,7 +22,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 
 	public resetForm = () => {
 		this.setState({
-			formAmount: 0.00,
+			formAmount: "",
 			formDescription: "",
 			formThreadId: "",
 			formISODate: new Date().toLocaleString(),
@@ -33,7 +33,17 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 	public setCategory = (category: PurchaseCategory) => {
 		this.setState({
 			formCategory: category
-		})
+		});
+	}
+	public setAmount = (amount: string) => {
+		this.setState({
+			formAmount: amount
+		});
+	}
+	public setDescription = (description: string) => {
+		this.setState({
+			formDescription: description
+		});
 	}
 
 	public setModalVis = (newVis: boolean, runSubmit: boolean) => {
@@ -137,11 +147,11 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 				<form id="newPurchaseForm" onSubmit={this.handleSubmit}>
 					<div className="m-5">
 						<label>Transaction Amount: </label>
-						<input value={this.state.formAmount} onChange={(e) => this.setState({ formAmount: e.target.value })} type="number" name="amount" step="0.01" required/>
+						<input value={this.state.formAmount} onChange={(e) => this.setAmount(e.target.value)} type="text" pattern="^\d*(\.\d{0,2})?$" name="amount" required/>
 					</div>
 					<div className="m-5">
 						<label>Category: </label>
-						<select name="category" value={this.state.formCategory} onChange={(e) => this.setState({ formCategory: e.target.value })} required className="bg-white">
+						<select name="category" value={this.state.formCategory} onChange={(e) => this.setCategory(PurchaseCategory[e.target.value])} required className="bg-white">
 							{Object.keys(PurchaseCategory).map((option, index) => (
 								<option key={index} value={option}>{option}</option>
 							))}
@@ -149,7 +159,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 					</div>
 					<div className="m-5">
 						<label>Description: </label>
-						<input value={this.state.formDescription} onChange={(e) => this.setState({ formDescription: e.target.value })} type="text" name="description" required/>
+						<input value={this.state.formDescription} onChange={(e) => this.setDescription(e.target.value)} type="text" name="description" required/>
 					</div>
 					<input value={this.state.formThreadId} type="text" className="hidden" id="threadId" name="threadId" />
 					<input value={this.state.formISODate} type="text" className="hidden" id="isoDate" name="isoDate" />
@@ -176,7 +186,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 						))}
 					</div>
 				</div>
-				<GmailConfirmModal visability={ this.state.modalVisability } setVisability={ this.setModalVis } setCategory={this.setCategory} currentCategory={this.state.formCategory}/>
+				<GmailConfirmModal visability={ this.state.modalVisability } setVisability={ this.setModalVis } setDescription={this.setDescription} currentDescription={this.state.formDescription} setAmount={this.setAmount} currentAmount={this.state.formAmount} setCategory={this.setCategory} currentCategory={this.state.formCategory}/>
 			</div>
 		);
 	};

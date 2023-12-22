@@ -1,6 +1,7 @@
-import { GetLatestUnreadPurchases } from "./utils/emailFunctions";
+import { GetLatestUnreadPurchases, MarkThreadAsRead } from "./utils/emailFunctions";
 import { AddPurchaseToSheet, GetMonthPurchases } from "./utils/sheetFunctions";
 import { Purchase, PurchaseCategory, FormObjToPurchase } from "../shared/types";
+import { GetProps } from "./utils/propFunctions";
 
 // @ts-ignore
 global.doGet = (e) => {
@@ -30,12 +31,18 @@ global.SubmitNewPurchase = (formObject) => {
     const purchase = FormObjToPurchase(formObject)
     AddPurchaseToSheet(purchase);
 
+    if (purchase.threadId) {
+        //MarkThreadAsRead(purchase.threadId);
+    }
+
     return purchase;
 }
 
 // @ts-ignore
 global.MarkPurchaseAsRead = (purchase: Purchase) => {
-    Logger.log(JSON.stringify(purchase));
+    if (purchase.threadId) {
+        //MarkThreadAsRead(purchase.threadId);
+    }
 
     return purchase;
 }
@@ -49,8 +56,10 @@ global.test = () => {
     //     isoDate: new Date().toLocaleString()
     // }
     // Logger.log(AddPurchaseToSheet(newPurchase));
-
-    Logger.log(GetLatestUnreadPurchases());
+    const props = GetProps();
+    Logger.log(props);
+    Logger.log(props['EMAIL_UNREAD_LABEL']);
+    Logger.log(GmailApp.getUserLabelByName(props['EMAIL_UNREAD_LABEL']));
 };
 
 // // @ts-ignore
@@ -58,8 +67,8 @@ global.test = () => {
 //     const key = 'MAIN_SHEET_ID';
 //     const value = '<sheet id>';
 
-//     const key = 'EMAIL_UREAD_LABEL';
-//     const value = '<uread label>';
+//     const key = 'EMAIL_UNREAD_LABEL';
+//     const value = '<unread label>';
 
 //     const key = 'EMAIL_READ_LABEL';
 //     const value = '<read label>';

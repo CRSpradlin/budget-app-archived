@@ -46,20 +46,6 @@ function test() {}
     // CONCATENATED MODULE: ./src/server/utils/propFunctions.ts
     var PurchaseCategory, propFunctions_GetProps = function() {
         return PropertiesService.getScriptProperties().getProperties();
-    }, GetLatestUnreadPurchases = function() {
-        var mail, props = propFunctions_GetProps(), result = [], index = 0;
-        do {
-            for (var _i = 0, mail_1 = mail = GmailApp.search("label:".concat(props.EMAIL_UREAD_LABEL), index, 50); _i < mail_1.length; _i++) {
-                var thread = mail_1[_i], description = thread.getMessages()[0].getSubject(), amountMatch = description.match(/\$([0-9,.]+)/), amount = null == amountMatch ? 0 : parseFloat(amountMatch[1]), newPurchase = {
-                    threadId: thread.getId(),
-                    amount,
-                    isoDate: thread.getLastMessageDate().toLocaleString(),
-                    description
-                };
-                result.unshift(newPurchase), index++;
-            }
-        } while (0 != mail.length);
-        return result;
     };
     !function(PurchaseCategory) {
         PurchaseCategory.Rent = "Rent", PurchaseCategory.Utilities = "Utilities", PurchaseCategory.Grocery = "Grocery", 
@@ -87,7 +73,21 @@ function test() {}
     __webpack_require__.g.doGet = function(e) {
         return HtmlService.createHtmlOutputFromFile("dist/index.html").setSandboxMode(HtmlService.SandboxMode.IFRAME).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL).addMetaTag("viewport", "width=device-width, initial-scale=1").setTitle("BudgetApp");
     }, __webpack_require__.g.GetLatestUnreadPurchases = function() {
-        return GetLatestUnreadPurchases();
+        return function() {
+            var mail, props = propFunctions_GetProps(), result = [], index = 0;
+            do {
+                for (var _i = 0, mail_1 = mail = GmailApp.search("label:".concat(props.EMAIL_UNREAD_LABEL), index, 50); _i < mail_1.length; _i++) {
+                    var thread = mail_1[_i], description = thread.getMessages()[0].getSubject(), amountMatch = description.match(/\$([0-9,.]+)/), amount = null == amountMatch ? 0 : parseFloat(amountMatch[1]), newPurchase = {
+                        threadId: thread.getId(),
+                        amount,
+                        isoDate: thread.getLastMessageDate().toLocaleString(),
+                        description
+                    };
+                    result.unshift(newPurchase), index++;
+                }
+            } while (0 != mail.length);
+            return result;
+        }();
     }, __webpack_require__.g.GetCurrentMonthPurchases = function() {
         var currDate = new Date, result = function(monthName, fullYear) {
             var props = propFunctions_GetProps(), monthRecordSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID).getSheetByName("".concat(monthName, ", ").concat(fullYear)), purchases = [], categoryResults = {};
@@ -122,11 +122,12 @@ function test() {}
                 purchaseIndex: formObject.purchaseIndex == undefined ? undefined : parseInt(formObject.purchaseIndex)
             };
         }(formObject);
-        return AddPurchaseToSheet(purchase), purchase;
+        return AddPurchaseToSheet(purchase), purchase.threadId, purchase;
     }, __webpack_require__.g.MarkPurchaseAsRead = function(purchase) {
-        return Logger.log(JSON.stringify(purchase)), purchase;
+        return purchase.threadId, purchase;
     }, __webpack_require__.g.test = function() {
-        Logger.log(GetLatestUnreadPurchases());
+        var props = propFunctions_GetProps();
+        Logger.log(props), Logger.log(props.EMAIL_UNREAD_LABEL), Logger.log(GmailApp.getUserLabelByName(props.EMAIL_UNREAD_LABEL));
     };
     for (var i in __webpack_exports__) this[i] = __webpack_exports__[i];
     __webpack_exports__.__esModule && Object.defineProperty(this, "__esModule", {
