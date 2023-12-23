@@ -58,7 +58,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 						}
 						<tr>
 							<td>Month Grand Total:</td>
-							<td>$0</td>
+							<td>{Object.keys(this.state.categories).length > 0 ? '$'+Object.keys(this.state.categories).reduce((prev, curr) => (parseFloat(prev) + parseFloat(this.state.categories[curr])).toFixed(2), '0') : 'Loading...'}</td>
 						</tr>
 					</table>
 					
