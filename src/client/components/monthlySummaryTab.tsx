@@ -63,7 +63,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 					</table>
 					
 				</div>
-				<div className="m-28 border-t">
+				<div className="m-2 lg:m-28 border-t">
 					<div className="text-budget-dark text-xl font-bold p-6">This Month's Purchases</div>
 					{this.state.purchases.length == 0 ? "No Submitted Transactions Yet" : 
 						this.state.purchases.map((purchase: Purchase, index) => (
