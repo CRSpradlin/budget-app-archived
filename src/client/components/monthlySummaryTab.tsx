@@ -43,8 +43,8 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 		return (
 			<div className="content-center">
 				<div className="flex flex-col items-center">
-					<span className="text-budget-dark text-2xl p-6">This Month's Category Totals</span>
-					<table className="table-fixed">
+					<span className="text-budget-dark font-bold text-xl p-6">This Month's Category Totals</span>
+					<table className="table-fixed text-budget-dark">
 						<tr>
 							<th>Category</th>
 							<th>Dollar Total</th>
@@ -63,17 +63,19 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 					</table>
 					
 				</div>
-				<div className="m-28">
-					<div className="text-budget-dark text-2xl p-6">This Month's Purchases</div>
-					{this.state.purchases.map((purchase: Purchase, index) => (
-						<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
-							<div className="flex flex-col text-center w-5/6 items-center">
-								<span className="text-xl font-bold">{purchase.category?purchase.category+': ':''}${purchase.amount}</span>
-								<span className="text-lg">{purchase.description}</span>
-								<span className="text-sm">{purchase.isoDate}</span>
+				<div className="m-28 border-t">
+					<div className="text-budget-dark text-xl font-bold p-6">This Month's Purchases</div>
+					{this.state.purchases.length == 0 ? "No Submitted Transactions Yet" : 
+						this.state.purchases.map((purchase: Purchase, index) => (
+							<div className="flex flex-row items-center justify-center border-t-2 border-indigo-900">
+								<div className="flex flex-col text-budget-dark text-center w-5/6 items-center">
+									<span className="text-lg font-bold">{purchase.category?purchase.category+': ':''}${purchase.amount}</span>
+									<span className="text-lg">{purchase.description}</span>
+									<span className="text-sm">{purchase.isoDate}</span>
+								</div>
 							</div>
-						</div>
-					))}
+						))
+					}
 				</div>
 				{/* <Modal modalTitle={'Are you sure you want to DELETE ALL RACES and start over?'} visability={ this.state.modalVisability } setVisability={ this.setModalVis } /> */}
 			</div>
