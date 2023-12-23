@@ -44,8 +44,12 @@ function test() {}
     // ESM COMPAT FLAG
         __webpack_require__.r(__webpack_exports__);
     // CONCATENATED MODULE: ./src/server/utils/propFunctions.ts
-    var PurchaseCategory, propFunctions_GetProps = function() {
+    var PurchaseCategory, GetProps = function() {
         return PropertiesService.getScriptProperties().getProperties();
+    }, MarkThreadAsRead = function(threadId) {
+        var props = GetProps();
+        GmailApp.getThreadById(threadId).addLabel(GmailApp.getUserLabelByName(props.EMAIL_READ_LABEL)), 
+        GmailApp.getThreadById(threadId).removeLabel(GmailApp.getUserLabelByName(props.EMAIL_UNREAD_LABEL));
     };
     !function(PurchaseCategory) {
         PurchaseCategory.Rent = "Rent", PurchaseCategory.Utilities = "Utilities", PurchaseCategory.Grocery = "Grocery", 
@@ -55,7 +59,7 @@ function test() {}
     // CONCATENATED MODULE: ./src/server/utils/sheetFunctions.ts
     var AddPurchaseToSheet = function(newPurchase) {
         var monthRecordSheet = function(purchase) {
-            var props = propFunctions_GetProps(), mainSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID), purchaseDate = new Date(purchase.isoDate), sheetName = "".concat(purchaseDate.toLocaleString("default", {
+            var props = GetProps(), mainSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID), purchaseDate = new Date(purchase.isoDate), sheetName = "".concat(purchaseDate.toLocaleString("default", {
                 month: "long"
             }), ", ").concat(purchaseDate.getFullYear()), monthRecordSheet = mainSheet.getSheetByName(sheetName);
             return monthRecordSheet || ((monthRecordSheet = mainSheet.insertSheet(sheetName, 1)).getRange(1, 1, 1, 7).setValues([ [ "Amount", "Category", "Date", "Description", "Gmail I.D.", "", "Total for Month" ] ]), 
@@ -74,7 +78,7 @@ function test() {}
         return HtmlService.createHtmlOutputFromFile("dist/index.html").setSandboxMode(HtmlService.SandboxMode.IFRAME).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL).addMetaTag("viewport", "width=device-width, initial-scale=1").setTitle("BudgetApp");
     }, __webpack_require__.g.GetLatestUnreadPurchases = function() {
         return function() {
-            var mail, props = propFunctions_GetProps(), result = [], index = 0;
+            var mail, props = GetProps(), result = [], index = 0;
             do {
                 for (var _i = 0, mail_1 = mail = GmailApp.search("label:".concat(props.EMAIL_UNREAD_LABEL), index, 50); _i < mail_1.length; _i++) {
                     var thread = mail_1[_i], description = thread.getMessages()[0].getSubject(), amountMatch = description.match(/\$([0-9,.]+)/), amount = null == amountMatch ? 0 : parseFloat(amountMatch[1]), newPurchase = {
@@ -90,7 +94,7 @@ function test() {}
         }();
     }, __webpack_require__.g.GetCurrentMonthPurchases = function() {
         var currDate = new Date, result = function(monthName, fullYear) {
-            var props = propFunctions_GetProps(), monthRecordSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID).getSheetByName("".concat(monthName, ", ").concat(fullYear)), purchases = [], categoryResults = {};
+            var props = GetProps(), monthRecordSheet = SpreadsheetApp.openById(props.MAIN_SHEET_ID).getSheetByName("".concat(monthName, ", ").concat(fullYear)), purchases = [], categoryResults = {};
             if (monthRecordSheet) for (var _i = 0, purchaseRecordValues_1 = monthRecordSheet.getRange(2, 1, monthRecordSheet.getMaxRows(), 5).getValues(); _i < purchaseRecordValues_1.length; _i++) {
                 var purchaseEntry = purchaseRecordValues_1[_i];
                 if ("" == purchaseEntry[0]) break;
@@ -122,11 +126,12 @@ function test() {}
                 purchaseIndex: formObject.purchaseIndex == undefined ? undefined : parseInt(formObject.purchaseIndex)
             };
         }(formObject);
-        return AddPurchaseToSheet(purchase), purchase.threadId, purchase;
+        return AddPurchaseToSheet(purchase), purchase.threadId && MarkThreadAsRead(purchase.threadId), 
+        purchase;
     }, __webpack_require__.g.MarkPurchaseAsRead = function(purchase) {
-        return purchase.threadId, purchase;
+        return purchase.threadId && MarkThreadAsRead(purchase.threadId), purchase;
     }, __webpack_require__.g.test = function() {
-        var props = propFunctions_GetProps();
+        var props = GetProps();
         Logger.log(props), Logger.log(props.EMAIL_UNREAD_LABEL), Logger.log(GmailApp.getUserLabelByName(props.EMAIL_UNREAD_LABEL));
     };
     for (var i in __webpack_exports__) this[i] = __webpack_exports__[i];

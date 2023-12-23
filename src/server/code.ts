@@ -32,7 +32,7 @@ global.SubmitNewPurchase = (formObject) => {
     AddPurchaseToSheet(purchase);
 
     if (purchase.threadId) {
-        //MarkThreadAsRead(purchase.threadId);
+        MarkThreadAsRead(purchase.threadId);
     }
 
     return purchase;
@@ -41,7 +41,7 @@ global.SubmitNewPurchase = (formObject) => {
 // @ts-ignore
 global.MarkPurchaseAsRead = (purchase: Purchase) => {
     if (purchase.threadId) {
-        //MarkThreadAsRead(purchase.threadId);
+        MarkThreadAsRead(purchase.threadId);
     }
 
     return purchase;

@@ -7732,7 +7732,9 @@
                     className: "table-fixed"
                 }, react.createElement("tr", null, react.createElement("th", null, "Category"), react.createElement("th", null, "Dollar Total")), Object.keys(PurchaseCategory).map((function(category, index) {
                     return react.createElement("tr", null, react.createElement("td", null, category), react.createElement("td", null, _this.props.loading ? "Loading..." : "$" + (_this.state.categories[category] == undefined ? 0 : parseFloat(_this.state.categories[category]).toFixed(2))));
-                })), react.createElement("tr", null, react.createElement("td", null, "Month Grand Total:"), react.createElement("td", null, "$0")))), react.createElement("div", {
+                })), react.createElement("tr", null, react.createElement("td", null, "Month Grand Total:"), react.createElement("td", null, Object.keys(this.state.categories).length > 0 ? "$" + Object.keys(this.state.categories).reduce((function(prev, curr) {
+                    return (parseFloat(prev) + parseFloat(_this.state.categories[curr])).toFixed(2);
+                }), "0") : "Loading...")))), react.createElement("div", {
                     className: "m-28"
                 }, react.createElement("div", {
                     className: "text-budget-dark text-2xl p-6"
