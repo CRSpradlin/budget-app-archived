@@ -49,31 +49,31 @@ global.MarkPurchaseAsRead = (purchase: Purchase) => {
 
 // @ts-ignore
 global.test = () => {
-    // const newPurchase = {
-    //     amount: 20.20,
-    //     description: 'Testing',
-    //     category: PurchaseCategory.Rent,
-    //     isoDate: new Date().toLocaleString()
-    // }
-    // Logger.log(AddPurchaseToSheet(newPurchase));
-    const props = GetProps();
-    Logger.log(props);
-    Logger.log(props['EMAIL_UNREAD_LABEL']);
-    Logger.log(GmailApp.getUserLabelByName(props['EMAIL_UNREAD_LABEL']));
+    Logger.log("Test Function");
 };
 
-// // @ts-ignore
-// global.setScriptProp = () => {
-//     const key = 'MAIN_SHEET_ID';
-//     const value = '<sheet id>';
+// @ts-ignore
+global.setScriptProp = () => {
 
-//     const key = 'EMAIL_UNREAD_LABEL';
-//     const value = '<unread label>';
+    const labelsToEdit = [
+        {
+            key: 'MAIN_SHEET_ID',
+            value: '<sheet id>'
+        },
+        {
+            key: 'EMAIL_UNREAD_LABEL',
+            value: '<unread label>'
+        },
+        {
+            key: 'EMAIL_READ_LABEL',
+            value: '<read label>'
+        }
+    ];
 
-//     const key = 'EMAIL_READ_LABEL';
-//     const value = '<read label>';
+    const scriptProps = PropertiesService.getScriptProperties();
+    for (const item of labelsToEdit) {
+        scriptProps.setProperty(item.key, item.value);
+    }
 
-//     const scriptProps = PropertiesService.getScriptProperties();
-//     scriptProps.setProperty(key, value);
-//     return true;
-// }
+    return true;
+}
