@@ -4,3 +4,5 @@ creds.json
 .clasp.json
 .clasprc.json
 appsscript.json
+
+.env

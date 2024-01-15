@@ -5,7 +5,7 @@
     "update": "clasp pull",
     "build": "webpack --mode production",
     "deploy-test": "bun run build; clasp push",
-    "deploy-prod": "bun run deploy-test; clasp deploy -i AKfycby-HTFx7v2p4QvsiWpDkd1W5Vnf02PaJv69-EAnqxKTy_nxKDxxB5n0PJrOJ9MmEsc"
+    "deploy-prod": "bun run deploy-test; clasp deploy -i process.env.PROD_DEPLOY_ID"
   },
   "dependencies": {
     "@effortlessmotion/html-webpack-inline-source-plugin": "^1.0.3",
