@@ -1,5 +1,6 @@
 # GCPBudgetApp
 
+### **Docs and Setup Instructions are W.I.P**
 ## TL;DR
 Gives users and developers the ability to host their own budget web application through Google Cloud's App Script Service. Typically App Script Applications are little one-off scripts that give users the ability to connect mulitple Google Services together or give the ability for developers to add additionally functionality to their SpreadSheets or Documents. In the case of the GCPBudgetApp, AppScript is leveraged to host a small web application which graphically displays any recent purchases performed by the user. Recent purchases are gathered via Gmail labels, one label denotes a new email with a new purchase, the other label denotes a purchase has already been read.
 
@@ -9,7 +10,7 @@ Gives users and developers the ability to host their own budget web application 
 Clone down the repository and run an `bun install`
 ![bun_install_repo.png](./docs/media/bun_install_repo.png)
 
-Run `bun clasp login`
+Run `bun run clasp login`
 ![type_clasp_login.png](./docs/media/type_clasp_login.png)
 The `clasp login` command will open a browser window to have you sign-in to your Google/Gmail account. Ensure you use the account you want to have the budget app recieve and manage your bank transaction emails. Click `Allow`.
 ![run_clasp_login_allow_page.png](./docs/media/run_clasp_login_allow_page.png)
@@ -21,7 +22,7 @@ Allow Google App Script API. If you have not done so, navigate to [https://scrip
 Enable the App Script API
 ![usersettings_appscript_api_on.png](./docs/media/usersettings_appscript_api_on.png)
 
-Next, run `bun clasp create <project name>` in the cloned down repository.
+Next, run `bun run clasp create <project name>` in the cloned down repository.
 ![type_clasp_create.png](./docs/media/type_clasp_create.png)
 Select `webapp` for the project type when prompted.
 ![run_clasp_create.png](./docs/media/run_clasp_create.png)
@@ -59,4 +60,10 @@ Replace `<enter filter parameters here>` with a filter which targets the subject
 You may also want to select the `Skip the Inbox (Archive it)` option if you do not want your inbox to be riddled with transaction emails. I personally don't have this option selected since I like recieving notifications about any new transactions but if that gets or sounds anoying this option can be selected. Selecting the `Skip the Inbox` option does not affect the functionality of the budget application.
 Once finished you can click the `Create Filter` button.
 
+### Configure Labels in Budget App
+Now that the labels have been created, we can now configure them in the budget app so that they can be used to identify and mark incomming transactions.
+
+1. Navigate back to the repository that you have cloned down and ran the previous `clasp` commands to create a new Google Cloud Project.
+
+2. Run `bun run clasp open`.
 
