@@ -56,11 +56,14 @@ Once you've created your two labels or already have labels that you can re-purpo
 Replace `<enter filter parameters here>` with a filter which targets the subject and bank email address. As an example, lets say the bank send their notification email from the email address: `example@bank.com`, and lets say the subject of those notification emails contain the words `You made a credit card purchase of` followed by the transaction amount. With this information, we can create a filter that looks for that particular subject from the bank's email address: `(from:(example@bank.com) AND {subject:"You made a credit card purchase of "})`. Place this newly created filter parameter under the `Has the words` field. Once you have set your filter parameters, click the `Create Filter` button.
 
 3. On the next page for creating a filter, select the `Apply the label` option and select the **UNREAD** label. By selecting this option, any new messages to your email with the subject you specified and from the specified bank email address will now have the unread label assigned to it.
-![select_filter_options](./docs/media/select_filter_options.png)
+![select_filter_options.png](./docs/media/select_filter_options.png)
 You may also want to select the `Skip the Inbox (Archive it)` option if you do not want your inbox to be riddled with transaction emails. I personally don't have this option selected since I like recieving notifications about any new transactions but if that gets or sounds anoying this option can be selected. Selecting the `Skip the Inbox` option does not affect the functionality of the budget application.
 Once finished you can click the `Create Filter` button.
 
-### Configure Labels in Budget App
+### Create Budget Spreadsheet
+A spreadsheet is needed by the budget app in order to store and retrieve. Navigate to your Google Drive and create a new Spreadsheet. ![click_create_google_spreadsheet.png](./docs/media/click_create_google_spreadsheet.png) After creating a new Google SpreadSheet and giving it a name of your choice, select and copy the entire sheet URL as shown below. ![select_spreadsheet_url.png](./docs/media/select_spreadsheet_url.png) The URL should look something like `https://docs.google.com/spreadsheets/d/XXXX/edit#gid=0` where the `XXXX` in the example is a long string of numbers and characters. This value is the SpreadSheet ID. Save this value somewhere since we will be needing it for the following step.
+
+### Configure Properties in Budget App (Labels and Sheet ID)
 Now that the labels have been created, we can now configure them in the budget app so that they can be used to identify and mark incomming transactions.
 
 1. Navigate back to the repository that you have cloned down and ran the previous `clasp` commands to create a new Google Cloud Project.
