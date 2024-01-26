@@ -7,22 +7,21 @@ Gives users and developers the ability to host their own budget web application 
 ## Setup
 
 ### Create Google Cloud Project
-Clone down the repository and run an `bun install`
+Clone down the repository and run an `bun install`.
 ![bun_install_repo.png](./docs/media/bun_install_repo.png)
 
-Run `bun run clasp login`
+Run `bun run clasp login`.
 ![type_clasp_login.png](./docs/media/type_clasp_login.png)
 The `clasp login` command will open a browser window to have you sign-in to your Google/Gmail account. Ensure you use the account you want to have the budget app recieve and manage your bank transaction emails. Click `Allow`.
 ![run_clasp_login_allow_page.png](./docs/media/run_clasp_login_allow_page.png)
 
-Allow Google App Script API. If you have not done so, navigate to [https://script.google.com/home/usersettings](https://script.google.com/home/usersettings) and ensure the App Script API is enabled as shown below.
-
+Allow Google App Script API. If you have not done so, navigate to [https://script.google.com/home/usersettings](https://script.google.com/home/usersettings) and ensure the App Script API is enabled as shown below. 
 ![usersettings_appscript_api.png](./docs/media/usersettings_appscript_api.png)
 
 Enable the App Script API
 ![usersettings_appscript_api_on.png](./docs/media/usersettings_appscript_api_on.png)
 
-Next, run `bun run clasp create <project name>` in the cloned down repository.
+Next, run `bun run clasp create <project name>` in the cloned down repository. 
 ![type_clasp_create.png](./docs/media/type_clasp_create.png)
 Select `webapp` for the project type when prompted.
 ![run_clasp_create.png](./docs/media/run_clasp_create.png)
