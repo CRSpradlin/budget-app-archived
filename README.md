@@ -1,6 +1,5 @@
 # GCPBudgetApp
 
-### **Docs and Setup Instructions are W.I.P**
 ## TL;DR
 Gives users and developers the ability to host their own budget web application through Google Cloud's App Script Service. Typically App Script Applications are little one-off scripts that give users the ability to connect mulitple Google Services together or give the ability for developers to add additionally functionality to their SpreadSheets or Documents. In the case of the GCPBudgetApp, AppScript is leveraged to host a small web application which graphically displays any recent purchases performed by the user. Recent purchases are gathered via Gmail labels, one label denotes a new email with a new purchase, the other label denotes a purchase has already been read.
 
@@ -67,5 +66,57 @@ Now that the labels have been created, we can now configure them in the budget a
 
 1. Navigate back to the repository that you have cloned down and ran the previous `clasp` commands to create a new Google Cloud Project.
 
-2. Run `bun run clasp open`.
+2. Run `bun run clasp open`. ![type_clasp_open.png](./docs/media/type_clasp_open.png) After running the `clasp open` command, your browser should be opened at the project you've created earlier. Be sure the browser is logged into the same account you've used within the `clasp login` command you performed earlier. ![done_clasp_open.png](./docs/media/done_clasp_open.png)
+
+3. Click on the settings icon in the left pane of the App Script Web IDE. ![click_settings_icon.png](./docs/media/click_settings_icon.png) Scroll to the bottom of the page or until you see the `Script Properties` section. 
+
+4. Click on the `Add script property` button until three new fields are showing. ![add_three_script_props.png](./docs/media/add_three_script_props.png)
+
+5. Fill in the script properties as shown below.
+
+    |Property|Value|
+    |---|---|
+    |EMAIL_READ_LABEL|budgetappread|
+    |EMAIL_UNREAD_LABEL|budgetappunread|
+    |MAIN_SHEET_ID|XXXX|
+
+    `EMAIL_READ_LABEL`: The value for this property should be the name of the **read** label you created in the [Add New Labels to Gmail](#add-new-labels-to-gmail) section.
+
+    `EMAIL_UNREAD_LABEL`: The value for this property should be the name of the **unread** label you created in the [Add New Labels to Gmail](#add-new-labels-to-gmail) section.
+
+    `MAIN_SHEET_ID`: The value for this property should be the I.D. of the SpreadSheet you created and saved from the [Create Budget Spreadsheet](#create-budget-spreadsheet) section.
+
+### Deploy Your Budget App
+Now that the project has been created and the properties have been applied, you can now move forward with creating your first prod deployment and test deployment.
+
+1. Navigate back to your locally cloned version of the code base where you intitially ran the `clasp` commands. Run `bun run deploy-test` command.
+![type_bun_deploy_test.png](./docs/media/type_bun_deploy_test.png)
+![done_bun_deploy_test.png](./docs/media/done_bun_deploy_test.png)
+
+2. Open or navigate back to the project within Google App Script. You can either open the project back up using the [script.google.com](https://script.google.com) or run the `bun run open` command.
+![done_clasp_open.png](./docs/media/done_clasp_open.png)
+
+3. Click on the `Deploy` dropdown and click `New deployment`. At which point the new deployment modal will show. Ensure you have selected a Web App deployment type by click the gear icon next to `Select Type`. Enter the following information for the new Web App Deployment.
+![deploy_prod_configuration_modal_form.png](./docs/media/deploy_prod_configuration_modal_form.png)
+For the `Description` field you can put whatever you'd like. In this case I elected to just put `Prod Deployment`.
+The `Execute as` field determines who the application should execute its code as. Since we are planning to be the only party accessing the application, you can have the app Execute as `Me` (yourself in this case).
+The `Who has access` field, as mentioned above, should only be yourself (until you are a litte more experienced).
+
+4. Click the `Deploy` button and go through the steps to authorize the app's access to your Gmail, and Google SpreadSheets.
+![deploy_prod_configuration_modal_authorization.png](./docs/media/deploy_prod_configuration_modal_authorization.png)
+![deploy_prod_configuration_modal_authorization_unverified.png](./docs/media/deploy_prod_configuration_modal_authorization_unverified.png)
+![deploy_prod_configuration_modal_authorization_unsafe.png](./docs/media/deploy_prod_configuration_modal_authorization_unsafe.png)
+![deploy_prod_configuration_modal_authorization_unsafe_permissions.png](./docs/media/deploy_prod_configuration_modal_authorization_unsafe_permissions.png)
+![deploy_prod_configuration_modal_authorization_unsafe_permissions_result.png](./docs/media/deploy_prod_configuration_modal_authorization_unsafe_permissions_result.png)
+
+5. Congrats! You have successfully deployed your eBudget application! What is even better is since you have deployed your first Prod deployment, you can now deploy any additional code changes you make from your terminal instead of the App Script Web UI. All you need to do is copy the deployment I.D. and paste it into a new file named `.env` at the root level with the key of `PROD_DEPLOY_ID`.
+![deploy_prod_configuration_modal_authorization_unsafe_permissions_result_copy.png](./docs/media/deploy_prod_configuration_modal_authorization_unsafe_permissions_result_copy.png)
+
+6. Copy the deployment ID and place it into a new `.env` file at the root directory level of the code your initially cloned down and created the project with.
+![create_dotenv.png](./docs/media/create_dotenv.png)
+![fill_dotenv.png](./docs/media/fill_dotenv.png)
+
+7. Now you should be able to deploy using the `bun run deploy-prod` command to deploy straight to that deployment ID. `bun run deploy-test` can be used to just update the code without deploying to your Prod environment.
+![run_deploy_prod_command.png](./docs/media/run_deploy_prod_command.png)
+
 
