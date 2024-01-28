@@ -6,3 +6,5 @@ creds.json
 appsscript.json
 
 .env
+
+dist
