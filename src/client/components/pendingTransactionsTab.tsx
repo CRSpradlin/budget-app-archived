@@ -103,6 +103,7 @@ export default class PendingTransactionsTab extends React.Component<ChildCompone
 	public setFormInputsWithPurchase = (purchase: Purchase, index: number) => {
 		this.setState({
 			formAmount: purchase.amount,
+			formCategory: purchase.category || PurchaseCategory.Uncategorized,
 			formDescription: purchase.description,
 			formThreadId: purchase.threadId,
 			formISODate: purchase.isoDate,

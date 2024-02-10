@@ -1,4 +1,4 @@
-import { GetProps } from "./propFunctions";
+import { GetProps, SetNewPurchaseCategoryUsage } from "./propFunctions";
 import { Purchase, PurchaseCategory } from "../../shared/types";
 
 const getNextEmptyRow = (sheet: GoogleAppsScript.Spreadsheet.Sheet) => {
@@ -42,6 +42,8 @@ const AddPurchaseToSheet = (newPurchase: Purchase) => {
             ]
         ]
     );
+
+    SetNewPurchaseCategoryUsage(newPurchase);
 }
 
 const GetMonthPurchases = (monthName: string, fullYear: number) => {
