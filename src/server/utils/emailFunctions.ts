@@ -1,4 +1,4 @@
-import { GetProps } from "./propFunctions"
+import { GetExpectedPurchaseCategory, GetProps } from "./propFunctions"
 import { Purchase } from "../../shared/types";
 
 const GetLatestUnreadPurchases = (): Purchase[] => {
@@ -28,7 +28,8 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
                 threadId: thread.getId(),
                 amount,
                 isoDate: thread.getLastMessageDate().toLocaleString(),
-                description
+                description,
+                category: GetExpectedPurchaseCategory(description)
             }
             
             result.unshift(newPurchase);
