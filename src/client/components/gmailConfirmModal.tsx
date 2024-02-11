@@ -65,6 +65,26 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
         this.props.setAmount(newTotal.toFixed(2).toString());
     }
 
+    public increaseTipButton = () => {
+        let tip = parseFloat(this.state.tipAmount);
+
+        if (isNaN(tip)) {
+            tip = 0.0;
+        }
+
+        this.updateTipAmount((tip + 1).toString());
+    }
+
+    public decreaseTipButton = () => {
+        let tip = parseFloat(this.state.tipAmount);
+
+        if (isNaN(tip)) {
+            tip = 0.0;
+        }
+
+        this.updateTipAmount((tip - 1).toString());
+    }
+
 	public render() {
 		return (
             <>
@@ -92,9 +112,13 @@ export default class GmailConfirmModal extends React.Component<GmailConfirmModal
                                                     ))}
                                                 </select>
                                             </div>
-                                            <div className="m-5">
+                                            <div>
                                                 <label>Additional Tip: </label>
                                                 <input type="text" pattern="^\d*(\.\d{0,2})?$" value={this.state.tipAmount} onChange={(e) => this.updateTipAmount(e.target.value)}/>
+                                                <div className="flex flex-row  mt-3 items-center justify-center">
+                                                    <button type="button" onClick={this.increaseTipButton} className="rounded-lg mr-3 px-4 py-2 text-white bg-budget-dark hover:bg-budget">+</button>
+                                                    <button type="button" onClick={this.decreaseTipButton} className="rounded-lg px-4 py-2 text-white bg-budget-dark hover:bg-budget">-</button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-row">
