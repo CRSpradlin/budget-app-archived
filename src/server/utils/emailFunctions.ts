@@ -14,7 +14,7 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
         for (const thread of mail) {
             const message = thread.getMessages()[0];
             const subject = message.getSubject();
-            const body = message.getBody();
+            const body = message.getPlainBody();
 
             let amountMatch = subject.match(/\$([0-9,.]+)/);
             if (amountMatch == null) {
@@ -23,7 +23,19 @@ const GetLatestUnreadPurchases = (): Purchase[] => {
             const amount =  amountMatch == null ? 0.0 : parseFloat(amountMatch[1]);
 
             let description = subject;
-
+            if (props['DESCRIPTION_REGEX']) {
+                const regex = new RegExp(props['DESCRIPTION_REGEX'], 'g');
+                const potentialDescriptions = regex.exec(body);
+                if (potentialDescriptions) {
+                    for (let i=1; i<potentialDescriptions.length; i++) {
+                        if (potentialDescriptions[i] != undefined) {
+                            description = potentialDescriptions[i];
+                            break;
+                        }
+                    }
+                }
+            }
+            
             const newPurchase = {
                 threadId: thread.getId(),
                 amount,
