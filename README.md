@@ -119,4 +119,8 @@ The `Who has access` field, as mentioned above, should only be yourself (until y
 7. Now you should be able to deploy using the `bun run deploy-prod` command to deploy straight to that deployment ID. `bun run deploy-test` can be used to just update the code without deploying to your Prod environment.
 ![run_deploy_prod_command.png](./docs/media/run_deploy_prod_command.png)
 
+## Optional Configurations
+
+### Targeted Email Descriptions
+For some banks, all transaction notifications may have the same email subject. This would cause all of your purchase descriptions to be the same. In the event of this, you can set an optional `Script Property` within the App Script GUI.
 
