@@ -122,5 +122,10 @@ The `Who has access` field, as mentioned above, should only be yourself (until y
 ## Optional Configurations
 
 ### Targeted Email Descriptions
-For some banks, all transaction notifications may have the same email subject. This would cause all of your purchase descriptions to be the same. In the event of this, you can set an optional `Script Property` within the App Script GUI.
+For some banks, all transaction notifications may have the same email subject. This would cause all of your purchase descriptions to be the same. In the event of this, you can set an optional Script Property within the App Script GUI to target your transaction description value to be something from the body of the email message.
 
+1. Navigate to your GAS project by running the `bun run clasp open` command in your project directory. ![type_clasp_open.png](./docs/media/type_clasp_open.png) ![done_clasp_open.png](./docs/media/done_clasp_open.png)
+2. Click on the `Project Settings (Gear Icon)` section within the left side pane. ![click_project_settings.png](./docs/media/click_project_settings.png)
+3. Scroll down on the Project Settings page until you see the `Script Properties` section. Click on the `Edit script properties` button. ![click_script_properties_button.png](./docs/media/click_script_properties_button.png)
+4. Click the `Add script property` button. ![click_add_script_property_button.png](./docs/media/click_add_script_property_button.png)
+5. Fill in the new script property. The `Property` text box should be `DESCRIPTION_REGEX`. The `Value` text box should be a RegEx string that matches a location within the email body that you want your transaction description value to be. ![add_new_script_property.png](./docs/media/add_new_script_property.png) As an example, let's say you have a bank that you have configured to send transaction notifications to your email and right before what you wanted your transaction descriptions to be the words `Merchant Details:`. The RegEx value for the `DESCRIPTION_REGEX` property could be somthing like `Merchant Details: (.+)\n` where `(.+)` is what you want your transaction descriptions to be. If you have multiple bank providers with different transaction notifications you can provide multiple RexEx expressions separated by a `|` like: `Merchant 1 Details: (.+)\n|Merchant 2 Details: (.+)\n`.
