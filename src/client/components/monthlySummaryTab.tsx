@@ -10,7 +10,8 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 
 	state = {
 		purchases: [],
-		categories: {}
+		categories: {},
+		prevMonthTotal: -1
 	}
 
 	public setCategoriesAndPurchases = (resultStr: string) => {
@@ -18,7 +19,8 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 
 		this.setState({
 			purchases: result.purchases,
-			categories: result.categories
+			categories: result.categories,
+			prevMonthTotal: result.prevMonthTotal
 		});
 
 		this.props.setLoading(false);
@@ -59,6 +61,10 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 						<tr>
 							<td>Month Grand Total:</td>
 							<td>{Object.keys(this.state.categories).length > 0 ? '$'+Object.keys(this.state.categories).reduce((prev, curr) => (parseFloat(prev) + parseFloat(this.state.categories[curr])).toFixed(2), '0') : 'Loading...'}</td>
+						</tr>
+						<tr>
+							<td>Total Last Month (at this time):</td>
+							<td>{this.state.prevMonthTotal == -1 ? 'Loading...' : '$' + this.state.prevMonthTotal}</td>
 						</tr>
 					</table>
 					

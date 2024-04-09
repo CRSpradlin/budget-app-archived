@@ -1,7 +1,7 @@
 import { GetLatestUnreadPurchases, MarkThreadAsRead } from "./utils/emailFunctions";
 import { AddPurchaseToSheet, GetMonthPurchases } from "./utils/sheetFunctions";
 import { Purchase, PurchaseCategory, FormObjToPurchase } from "../shared/types";
-import { GetProps } from "./utils/propFunctions";
+import { GetExpectedPurchaseCategory, GetProps } from "./utils/propFunctions";
 
 // @ts-ignore
 global.doGet = (e) => {
@@ -22,7 +22,39 @@ global.GetCurrentMonthPurchases = () => {
 
     const result = GetMonthPurchases(monthName, fullYear);
 
-    return JSON.stringify(result);
+    // @ts-ignore
+    const prevMonthTotal = global.GetTotal30DaysAgo();
+
+    return JSON.stringify({...result, prevMonthTotal});
+}
+
+// @ts-ignore
+global.GetTotal30DaysAgo = () => {
+    const currDate = new Date();
+    let newDate = new Date();
+    const currMonth = currDate.getMonth();
+    const expectedMonth = currMonth == 0 ? 11 : currMonth - 1;
+
+    newDate.setMonth(expectedMonth);
+    if (newDate.getMonth() != expectedMonth) {
+        newDate = currDate;
+        newDate.setDate(1);
+        newDate.setDate(0);
+    }
+
+    const monthName = newDate.toLocaleString('default', { month: 'long' });
+    const fullYear = newDate.getFullYear();
+
+    const prevMonthPurchases = GetMonthPurchases(monthName, fullYear);
+
+    let runningTotal = 0;
+    for (let purhcase of prevMonthPurchases.purchases) {
+        if (new Date(purhcase.isoDate) <= newDate){
+            runningTotal += purhcase.amount;
+        }
+    }
+
+    return runningTotal;
 }
 
 // @ts-ignore
