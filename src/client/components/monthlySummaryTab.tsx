@@ -11,7 +11,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 	state = {
 		purchases: [],
 		categories: {},
-		prevMonthTotal: -1
+		prevMonthTotal: -1.0
 	}
 
 	public setCategoriesAndPurchases = (resultStr: string) => {
@@ -64,7 +64,7 @@ export default class MonthlySummaryTab extends React.Component<ChildComponentTyp
 						</tr>
 						<tr>
 							<td>Total Last Month (at this time):</td>
-							<td>{this.state.prevMonthTotal == -1 ? 'Loading...' : '$' + this.state.prevMonthTotal}</td>
+							<td>{this.state.prevMonthTotal < 0 ? 'Loading...' : '$' + this.state.prevMonthTotal.toFixed(2)}</td>
 						</tr>
 					</table>
 					
