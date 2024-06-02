@@ -1,3 +1,8 @@
+# **ARCHIVED JUNE 2024:**
+## This project was archived and moved to leverage the new [gcp-react-template](https://github.com/CRSpradlin/gcp-react-template). Check out the new and improved [budget-app repo](https://github.com/CRSpradlin/budget-app)!
+
+---
+
 # GCPBudgetApp
 
 ## TL;DR
